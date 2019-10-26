@@ -1,4 +1,4 @@
-package ipodovalnyy;
+package ipodovalnyy.vector;
 
 import java.util.Arrays;
 
@@ -6,23 +6,24 @@ public class Vector {
     private double[] elements;
     private int size;
 
-    Vector(int size) {
+    public Vector(int size) {
         if (size < 0) {
             throw new IllegalArgumentException("Индекс должен быть больше нуля");
         }
+
         this.size = size;
         elements = new double[size];
     }
 
-    Vector(Vector vector) {
+    public Vector(Vector vector) {
         this(vector.size, vector.elements);
     }
 
-    Vector(double[] array) {
+    public Vector(double[] array) {
         this(array.length, array);
     }
 
-    Vector(int size, double[] array) {
+    public Vector(int size, double[] array) {
         this.size = size;
         elements = new double[size];
         elements = Arrays.copyOf(array, size);
@@ -63,7 +64,8 @@ public class Vector {
         if (index > size) {
             throw new IllegalArgumentException("Индекс должен быть меньше длины вектора");
         }
-        this.elements[index] = num;
+
+        elements[index] = num;
     }
 
     public double getElement(int index) {
@@ -73,7 +75,8 @@ public class Vector {
         if (index > size) {
             throw new IllegalArgumentException("Индекс должен быть меньше длины вектора");
         }
-        return this.elements[index];
+
+        return elements[index];
     }
 
     public static Vector sum(Vector vector1, Vector vector2) {
@@ -87,6 +90,7 @@ public class Vector {
         for (int i = 0; i < vector.size; i++) {
             vector.elements[i] = vector1.elements[i] + vector2.elements[i];
         }
+
         return vector;
     }
 
@@ -101,16 +105,18 @@ public class Vector {
         for (int i = 0; i < vector.size; i++) {
             vector.elements[i] = vector1.elements[i] - vector2.elements[i];
         }
+
         return vector;
     }
 
     public static double multiply(Vector vector1, Vector vector2) {
-        int sizeVector = vector1.size < vector2.size ? vector1.size : vector2.size;
+        int sizeVector = Math.min(vector1.size, vector2.size);
         double multiply = 0;
 
         for (int i = 0; i < sizeVector; i++) {
             multiply += vector1.elements[i] * vector2.elements[i];
         }
+
         return multiply;
     }
 
@@ -123,6 +129,7 @@ public class Vector {
             sb.append(e);
             sb.append(", ");
         }
+
         sb.delete(sb.length() - 2, sb.length());
         sb.append("}");
 
@@ -136,6 +143,7 @@ public class Vector {
         for (double e : elements) {
             hash = hash * PRIME + Double.hashCode(e);
         }
+
         hash = hash * PRIME + size;
         return hash;
     }
@@ -148,8 +156,8 @@ public class Vector {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        Vector temp = (Vector) obj;
-        return this.size == temp.size && Arrays.equals(this.elements, temp.elements);
-    }
 
+        Vector temp = (Vector) obj;
+        return size == temp.size && Arrays.equals(elements, temp.elements);
+    }
 }
