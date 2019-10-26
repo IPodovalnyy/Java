@@ -1,4 +1,4 @@
-package ipodovalnyy;
+package ipodovalnyy.shapes;
 
 public class Triangle implements Shape {
     private double x1;
@@ -8,7 +8,7 @@ public class Triangle implements Shape {
     private double x3;
     private double y3;
 
-    Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
+    public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -17,14 +17,14 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private double getMax(double num1, double num2, double num3) {
-        double temp = num1 >= num2 ? num1 : num2;
-        return temp >= num3 ? temp : num3;
+    private static double getMax(double num1, double num2, double num3) {
+        double temp = Math.max(num1, num2);
+        return Math.max(temp, num3);
     }
 
-    private double getMin(double num1, double num2, double num3) {
-        double temp = num1 < num2 ? num1 : num2;
-        return temp < num3 ? temp : num3;
+    private static double getMin(double num1, double num2, double num3) {
+        double temp = Math.min(num1, num2);
+        return Math.min(temp, num3);
     }
 
     @Override
@@ -42,15 +42,15 @@ public class Triangle implements Shape {
         return 0.5 * Math.abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1));
     }
 
-    private double getLengthSideTriangle(double a1, double b1, double a2, double b2) {
-        return Math.sqrt(Math.pow(a2 - a1, 2) + Math.pow(b2 - b1, 2));
+    private static double getSideLength(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     @Override
     public double getPerimeter() {
-        double lengthAB = getLengthSideTriangle(x1, y1, x2, y2);
-        double lengthBC = getLengthSideTriangle(x2, y2, x3, y3);
-        double lengthAC = getLengthSideTriangle(x3, y3, x1, y1);
+        double lengthAB = getSideLength(x1, y1, x2, y2);
+        double lengthBC = getSideLength(x2, y2, x3, y3);
+        double lengthAC = getSideLength(x3, y3, x1, y1);
         return lengthAB + lengthBC + lengthAC;
     }
 
@@ -80,6 +80,7 @@ public class Triangle implements Shape {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
+
         Triangle temp = (Triangle) obj;
         return x1 == temp.x1 && y1 == temp.y1 && x2 == temp.x2 && y2 == temp.y2 && x3 == temp.x3 && y3 == temp.y3;
     }

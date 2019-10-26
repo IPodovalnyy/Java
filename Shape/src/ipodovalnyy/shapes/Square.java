@@ -1,41 +1,45 @@
-package ipodovalnyy;
+package ipodovalnyy.shapes;
 
-public class Circle implements Shape {
-    private double radius;
+public class Square implements Shape {
+    private double width;
 
-    Circle(double radius) {
-        this.radius = radius;
+    public Square(double width) {
+        this.width = width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
     }
 
     @Override
     public double getHeight() {
-        return 2 * radius;
+        return width;
     }
 
     @Override
     public double getWidth() {
-        return 2 * radius;
+        return width;
     }
 
     @Override
     public double getArea() {
-        return Math.PI * radius * radius;
+        return width * width;
     }
 
     @Override
     public double getPerimeter() {
-        return 2 * Math.PI * radius;
+        return 4 * width;
     }
 
     @Override
     public String toString() {
-        return String.format("Circle%nradius = %.1f", radius);
+        return String.format("Square%nwidth = %.1f", width);
     }
 
     @Override
     public int hashCode() {
         final int PRIME = 37;
-        return PRIME + Double.hashCode(radius);
+        return PRIME + Double.hashCode(width);
     }
 
     @Override
@@ -46,7 +50,8 @@ public class Circle implements Shape {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        Circle temp = (Circle) obj;
-        return radius == temp.radius;
+
+        Square temp = (Square) obj;
+        return width == temp.width;
     }
 }

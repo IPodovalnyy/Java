@@ -1,9 +1,11 @@
-package ipodovalnyy;
+package ipodovalnyy.shapes;
 
-public class Square implements Shape {
+public class Rectangle implements Shape {
+    private double height;
     private double width;
 
-    Square(double width) {
+    public Rectangle(double height, double width) {
+        this.height = height;
         this.width = width;
     }
 
@@ -11,9 +13,13 @@ public class Square implements Shape {
         this.width = width;
     }
 
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
     @Override
     public double getHeight() {
-        return width;
+        return height;
     }
 
     @Override
@@ -23,23 +29,26 @@ public class Square implements Shape {
 
     @Override
     public double getArea() {
-        return width * width;
+        return height * width;
     }
 
     @Override
     public double getPerimeter() {
-        return 4 * width;
+        return 2 * height + 2 * width;
     }
 
     @Override
     public String toString() {
-        return String.format("Square%nwidth = %.1f", width);
+        return String.format("Rectangle%nheight = %.1f, width = %.1f", height, width);
     }
 
     @Override
     public int hashCode() {
         final int PRIME = 37;
-        return PRIME + Double.hashCode(width);
+        int hash = 1;
+        hash = PRIME * hash + Double.hashCode(height);
+        hash = PRIME * hash + Double.hashCode(width);
+        return hash;
     }
 
     @Override
@@ -50,7 +59,8 @@ public class Square implements Shape {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-        Square temp = (Square) obj;
-        return width == temp.width;
+
+        Rectangle temp = (Rectangle) obj;
+        return height == temp.height && width == temp.width;
     }
 }

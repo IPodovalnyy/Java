@@ -1,4 +1,4 @@
-package ipodovalnyy;
+package ipodovalnyy.shapes;
 
 public interface Shape {
     double getHeight();
