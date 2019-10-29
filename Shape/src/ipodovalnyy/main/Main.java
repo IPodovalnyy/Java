@@ -7,12 +7,12 @@ import java.util.Arrays;
 public class Main {
     private static Shape getShapeWithMaxArea(Shape[] shapes) {
         Arrays.sort(shapes, new ComparatorArea());
-        return shapes[0];
+        return shapes[shapes.length - 1];
     }
 
     private static Shape getShapeWithSecondPerimeter(Shape[] shapes) {
         Arrays.sort(shapes, new ComparatorPerimeter());
-        return shapes[1];
+        return shapes[shapes.length - 2];
     }
 
     public static void main(String[] args) {
