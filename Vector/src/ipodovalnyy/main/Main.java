@@ -38,7 +38,7 @@ public class Main {
 
         System.out.println("E * C " + E.multiply(C));
 
-        E.revers();
+        E.reverse();
         System.out.println("revers E " + E);
 
         System.out.println("size E " + E.getSize());
@@ -51,14 +51,14 @@ public class Main {
 
         // проверяем отработку проверки корректности входных данных
         try {
-            E.setElement(-22, 0.7);
-        } catch (IllegalArgumentException e) {
+            E.setElement(-7, 0.7);
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
 
         try {
-            E.getElement(22);
-        } catch (IllegalArgumentException e) {
+            E.getElement(7);
+        } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
         }
 

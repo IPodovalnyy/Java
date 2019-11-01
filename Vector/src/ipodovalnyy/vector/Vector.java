@@ -4,19 +4,17 @@ import java.util.Arrays;
 
 public class Vector {
     private double[] elements;
-    private int size;
 
     public Vector(int size) {
-        if (size < 0) {
-            throw new IllegalArgumentException("Индекс должен быть больше нуля");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Длина вектора должена быть больше нуля");
         }
 
-        this.size = size;
         elements = new double[size];
     }
 
     public Vector(Vector vector) {
-        this(vector.size, vector.elements);
+        this(vector.elements.length, vector.elements);
     }
 
     public Vector(double[] array) {
@@ -24,19 +22,35 @@ public class Vector {
     }
 
     public Vector(int size, double[] array) {
-        this.size = size;
-        elements = new double[size];
+        if (size <= 0) {
+            throw new IllegalArgumentException("Длина вектора должена быть больше нуля");
+        }
+
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Массив не может быть пустым");
+        }
+
         elements = Arrays.copyOf(array, size);
     }
 
     public void sum(Vector vector) {
-        elements = sum(this, vector).elements;
-        size = elements.length;
+        if (vector.elements.length > this.elements.length) {
+            elements = Arrays.copyOf(elements, vector.elements.length);
+        }
+
+        for (int i = 0; i < vector.elements.length; i++) {
+            this.elements[i] += vector.elements[i];
+        }
     }
 
     public void sub(Vector vector) {
-        elements = sub(this, vector).elements;
-        size = elements.length;
+        if (vector.elements.length > this.elements.length) {
+            elements = Arrays.copyOf(elements, vector.elements.length);
+        }
+
+        for (int i = 0; i < vector.elements.length; i++) {
+            this.elements[i] -= vector.elements[i];
+        }
     }
 
     public double multiply(Vector vector) {
@@ -44,25 +58,25 @@ public class Vector {
     }
 
     public void multiply(double num) {
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < elements.length; i++) {
             elements[i] *= num;
         }
     }
 
-    public void revers() {
+    public void reverse() {
         multiply(-1);
     }
 
     public int getSize() {
-        return size;
+        return elements.length;
     }
 
     public void setElement(int index, double num) {
         if (index < 0) {
-            throw new IllegalArgumentException("Индекс должен быть больше нуля");
+            throw new IndexOutOfBoundsException("Индекс должен быть больше нуля");
         }
-        if (index > size) {
-            throw new IllegalArgumentException("Индекс должен быть меньше длины вектора");
+        if (index > elements.length - 1) {
+            throw new IndexOutOfBoundsException("Индекс должен быть меньше длины вектора");
         }
 
         elements[index] = num;
@@ -70,47 +84,27 @@ public class Vector {
 
     public double getElement(int index) {
         if (index < 0) {
-            throw new IllegalArgumentException("Индекс должен быть больше нуля");
+            throw new IndexOutOfBoundsException("Индекс должен быть больше нуля");
         }
-        if (index > size) {
-            throw new IllegalArgumentException("Индекс должен быть меньше длины вектора");
+        if (index > elements.length - 1) {
+            throw new IndexOutOfBoundsException("Индекс должен быть меньше длины вектора");
         }
 
         return elements[index];
     }
 
     public static Vector sum(Vector vector1, Vector vector2) {
-        if (vector1.size < vector2.size) {
-            vector1 = new Vector(vector2.size, vector1.elements);
-        } else {
-            vector2 = new Vector(vector1.size, vector2.elements);
-        }
-
-        Vector vector = new Vector(vector1.size);
-        for (int i = 0; i < vector.size; i++) {
-            vector.elements[i] = vector1.elements[i] + vector2.elements[i];
-        }
-
-        return vector;
+        vector1.sum(vector2);
+        return vector1;
     }
 
     public static Vector sub(Vector vector1, Vector vector2) {
-        if (vector1.size < vector2.size) {
-            vector1 = new Vector(vector2.size, vector1.elements);
-        } else {
-            vector2 = new Vector(vector1.size, vector2.elements);
-        }
-
-        Vector vector = new Vector(vector1.size);
-        for (int i = 0; i < vector.size; i++) {
-            vector.elements[i] = vector1.elements[i] - vector2.elements[i];
-        }
-
-        return vector;
+        vector1.sub(vector2);
+        return vector1;
     }
 
     public static double multiply(Vector vector1, Vector vector2) {
-        int sizeVector = Math.min(vector1.size, vector2.size);
+        int sizeVector = Math.min(vector1.elements.length, vector2.elements.length);
         double multiply = 0;
 
         for (int i = 0; i < sizeVector; i++) {
@@ -138,14 +132,7 @@ public class Vector {
 
     @Override
     public int hashCode() {
-        final int PRIME = 31;
-        int hash = 1;
-        for (double e : elements) {
-            hash = hash * PRIME + Double.hashCode(e);
-        }
-
-        hash = hash * PRIME + size;
-        return hash;
+        return Arrays.hashCode(elements);
     }
 
     @Override
@@ -153,11 +140,11 @@ public class Vector {
         if (this == obj) {
             return true;
         }
-        if (obj == null || obj.getClass() != this.getClass()) {
+        if (obj == null || obj.getClass() != getClass()) {
             return false;
         }
 
         Vector temp = (Vector) obj;
-        return size == temp.size && Arrays.equals(elements, temp.elements);
+        return Arrays.equals(elements, temp.elements);
     }
 }
